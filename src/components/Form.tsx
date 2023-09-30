@@ -1,6 +1,5 @@
 import { FormEvent, useRef, useState } from "react";
 import {
-  Button,
   TextField,
   Select,
   MenuItem,
@@ -11,6 +10,7 @@ import {
   FormControlLabel,
   Radio,
   InputLabel,
+  Fab,
 } from "@mui/material";
 import { Input } from "../types/InputType";
 interface Props {
@@ -32,11 +32,26 @@ const Form = ({ onFormSubmit }: Props) => {
   const rateRef = useRef<HTMLSelectElement>(null);
   const [invite, setInvite] = useState("");
 
+  const clearForm = () => {
+    if (candidateRef.current) candidateRef.current.value = "";
+    if (companyRef.current) companyRef.current.value = "";
+    if (rateRef.current) rateRef.current.value = "";
+    setInvite("");
+  };
+
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
-    const candidate = candidateRef.current?.value || "";
-    const company = companyRef.current?.value || "";
-    const rate = rateRef.current?.value || "";
+    if (
+      !candidateRef.current?.value ||
+      !companyRef.current?.value ||
+      !rateRef.current?.value ||
+      !invite
+    ) {
+      return;
+    }
+    const candidate = candidateRef.current!.value;
+    const company = companyRef.current!.value;
+    const rate = rateRef.current!.value;
     const newData: Input = {
       candidate,
       company,
@@ -44,6 +59,7 @@ const Form = ({ onFormSubmit }: Props) => {
       reInvite: invite === inviteOptions[0] ? true : false,
     };
     onFormSubmit(newData);
+    clearForm();
   };
 
   return (
@@ -108,9 +124,9 @@ const Form = ({ onFormSubmit }: Props) => {
           </FormControl>
         </Grid>
         <Grid item xs={12} sm={6}>
-          <Button type="submit" variant="contained" color="primary">
+          <Fab type="submit" variant="extended" color="primary">
             Generate
-          </Button>
+          </Fab>
         </Grid>
       </Grid>
     </form>

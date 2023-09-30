@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Form from "./components/Form";
 import { Input } from "./types/InputType";
+import { Box, Paper, Typography } from "@mui/material";
 
 function App() {
   const [data, setData] = useState<Input>({
@@ -20,14 +21,20 @@ function App() {
     <>
       <Form onFormSubmit={handleFormSubmit} />
       {isSubmitted && (
-        <div>
-          name: {data.candidate} company: {data.company} rate: {data.rate}
-          {data.reInvite ? (
-            <div>invited again</div>
-          ) : (
-            <div>not invited again</div>
-          )}
-        </div>
+        <Paper style={{ marginTop: "50px", padding: "16px" }} elevation={6}>
+          <Box p={2}>
+            <Typography variant="h6" gutterBottom>
+              name: {data.candidate} company: {data.company} rate: {data.rate}
+            </Typography>
+            <Typography variant="h6" gutterBottom>
+              {data.reInvite ? (
+                <div>invited again</div>
+              ) : (
+                <div>not invited again</div>
+              )}
+            </Typography>
+          </Box>
+        </Paper>
       )}
     </>
   );
