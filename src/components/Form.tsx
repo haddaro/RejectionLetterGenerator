@@ -1,5 +1,4 @@
-import { FormEvent, useState } from "react";
-import { Input } from "../types/inputType";
+import { FormEvent, useRef, useState } from "react";
 import {
   Button,
   TextField,
@@ -13,6 +12,10 @@ import {
   Radio,
   InputLabel,
 } from "@mui/material";
+import { Input } from "../types/InputType";
+interface Props {
+  onFormSubmit: (newData: Input) => void;
+}
 
 const options: string[] = [
   "Almost hired",
@@ -23,26 +26,24 @@ const options: string[] = [
 ];
 const inviteOptions: string[] = ["OK", "Hell no"];
 
-const Form = () => {
-  const [candidateName, setCandidateName] = useState("");
-  const [companyName, setCompanyName] = useState("");
-  const [evaluation, setEvaluation] = useState("");
+const Form = ({ onFormSubmit }: Props) => {
+  const candidateRef = useRef<HTMLInputElement>(null);
+  const companyRef = useRef<HTMLInputElement>(null);
+  const rateRef = useRef<HTMLSelectElement>(null);
   const [invite, setInvite] = useState("");
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
-    if (!candidateName || !companyName || evaluation === undefined) return;
-
-    const newInput: Input = {
-      candidate: candidateName,
-      company: companyName,
-      rate: evaluation,
+    const candidate = candidateRef.current?.value || "";
+    const company = companyRef.current?.value || "";
+    const rate = rateRef.current?.value || "";
+    const newData: Input = {
+      candidate,
+      company,
+      rate,
       reInvite: invite === inviteOptions[0] ? true : false,
     };
-    setCandidateName("");
-    setCompanyName("");
-    setEvaluation("");
-    console.log(newInput);
+    onFormSubmit(newData);
   };
 
   return (
@@ -51,8 +52,7 @@ const Form = () => {
         <Grid item xs={12} sm={6}>
           <TextField
             label="Candidate's name"
-            value={candidateName}
-            onChange={(e) => setCandidateName(e.target.value)}
+            inputRef={candidateRef}
             variant="standard"
             margin="normal"
             style={{ width: "90%" }}
@@ -61,9 +61,7 @@ const Form = () => {
         <Grid item xs={12} sm={6}>
           <TextField
             label="Company's name"
-            value={companyName}
-            onChange={(e) => setCompanyName(e.target.value)}
-            placeholder="company"
+            inputRef={companyRef}
             variant="standard"
             margin="normal"
             style={{ width: "90%" }}
@@ -75,17 +73,8 @@ const Form = () => {
             margin="normal"
             style={{ width: "90%" }}
           >
-            <InputLabel
-              id="evaluation-label"
-              shrink={evaluation ? true : false}
-            >
-              {evaluation ? "" : "How bad were they?"}
-            </InputLabel>
-            <Select
-              labelId="evaluation-label"
-              value={evaluation}
-              onChange={(e) => setEvaluation(e.target.value)}
-            >
+            <InputLabel id="evaluation-label">How bad were they?</InputLabel>
+            <Select labelId="evaluation-label" inputRef={rateRef}>
               {options.map((option, index) => (
                 <MenuItem value={option} key={index}>
                   {option}
