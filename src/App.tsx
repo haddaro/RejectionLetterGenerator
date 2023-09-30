@@ -21,7 +21,9 @@ function App() {
   return (
     <>
       <Header />
-      <Form onFormSubmit={handleFormSubmit} />
+      <div style={{ marginTop: "50px", padding: "16px" }}>
+        <Form onFormSubmit={handleFormSubmit} />
+      </div>
       {isSubmitted && (
         <Paper style={{ marginTop: "50px", padding: "16px" }} elevation={6}>
           <Box p={2}>
