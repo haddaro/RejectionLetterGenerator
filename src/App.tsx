@@ -2,6 +2,7 @@ import { useState } from "react";
 import Form from "./components/Form";
 import { Input } from "./types/InputType";
 import { Box, Paper, Typography } from "@mui/material";
+import Header from "./components/Header";
 
 function App() {
   const [data, setData] = useState<Input>({
@@ -19,6 +20,7 @@ function App() {
 
   return (
     <>
+      <Header />
       <Form onFormSubmit={handleFormSubmit} />
       {isSubmitted && (
         <Paper style={{ marginTop: "50px", padding: "16px" }} elevation={6}>
