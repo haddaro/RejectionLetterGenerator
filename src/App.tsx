@@ -2,7 +2,7 @@ import { useState } from "react";
 import Form from "./components/Form";
 import { Input } from "./types/InputType";
 import Header from "./components/Header";
-import ResponseDisplay from "./components/responseDisplay";
+import ResponseDisplay from "./components/ResponseDisplay";
 import { Box } from "@mui/material";
 
 function App() {
@@ -19,13 +19,26 @@ function App() {
     setIsSubmitted(true);
   };
 
-  const generatePrompt = (data: Input) => {
+  const formatEvaluation = (rate: string) => {
+    if (rate === "Almost hired")
+      return `a performance that nearly secured you the position`;
+    if (rate === "Good but not enough") return `a good effort`;
+    if (rate === "They were okayish")
+      return `a satisfactory level of competence`;
+    if (rate === "Pretty darn bad")
+      return `a level of inadequacy that kindled our curiosity`;
+    if (rate === "an incredibly high self esteem") return `5`;
+  };
+  const generateLetter = (data: Input) => {
+    const evaluation = formatEvaluation(data.rate);
     return (
-      `Write a rejection letter to ${data.candidate} who applied for a job at ${data.company}. The hiring team's evaluation of ${data.candidate} was: ${data.rate}.
-        The candidate is ` +
-      (data.reInvite
-        ? "invited to try again in the future."
-        : "not invited again to apply for more jobs in our company.")
+      `Dear ${data.candidate},
+      We thank you for applying for a job at ${data.company}.
+      Although your interview demonstrated ${evaluation}, 
+      we have decided to move forward with another candidate.
+      We wish you best of luck in your job search` +
+      (data.reInvite ? ", and hope you'll apply again in the future." : ".") +
+      `Sincerely, ${data.company}.`
     );
   };
 
@@ -40,7 +53,7 @@ function App() {
       <div style={{ marginTop: "50px", padding: "16px" }}>
         <Form onFormSubmit={handleFormSubmit} />
       </div>
-      {isSubmitted && <ResponseDisplay toDisplay={generatePrompt(data)} />}
+      {isSubmitted && <ResponseDisplay toDisplay={generateLetter(data)} />}
     </Box>
   );
 }
