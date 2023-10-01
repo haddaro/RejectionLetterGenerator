@@ -41,6 +41,8 @@ function App() {
     );
   };
 
+  const rejectionLetter = generateLetter(data);
+
   return (
     <Box
       sx={{
@@ -57,7 +59,7 @@ function App() {
           }}
         />
       </div>
-      {isSubmitted && <ResponseDisplay>{generateLetter(data)}</ResponseDisplay>}
+      {isSubmitted && <ResponseDisplay>{rejectionLetter}</ResponseDisplay>}
     </Box>
   );
 }
