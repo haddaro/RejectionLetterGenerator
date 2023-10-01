@@ -12,6 +12,7 @@ const ResponseDisplay = ({ toDisplay }: Props) => {
   const [copied, setCopied] = useState(false);
   const handleCopy = () => {
     setCopied(true);
+    //write functionality!!!!!
   };
   return (
     <Paper

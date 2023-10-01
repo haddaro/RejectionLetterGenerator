@@ -3,6 +3,7 @@ import Form from "./components/Form";
 import { Input } from "./types/InputType";
 import Header from "./components/Header";
 import ResponseDisplay from "./components/responseDisplay";
+import { Box } from "@mui/material";
 
 function App() {
   const [data, setData] = useState<Input>({
@@ -20,7 +21,7 @@ function App() {
 
   const generatePrompt = (data: Input) => {
     return (
-      `Write a rejection letter to ${data.candidate} who applied for a job at ${data.company}. Our evaluation of them was: ${data.rate}.
+      `Write a rejection letter to ${data.candidate} who applied for a job at ${data.company}. The hiring team's evaluation of ${data.candidate} was: ${data.rate}.
         The candidate is ` +
       (data.reInvite
         ? "invited to try again in the future."
@@ -29,13 +30,18 @@ function App() {
   };
 
   return (
-    <>
+    <Box
+      sx={{
+        background: "linear-gradient(45deg, #ecf0f1 30%, #bdc3c7 90%)",
+        borderRadius: "15px",
+      }}
+    >
       <Header />
       <div style={{ marginTop: "50px", padding: "16px" }}>
         <Form onFormSubmit={handleFormSubmit} />
       </div>
       {isSubmitted && <ResponseDisplay toDisplay={generatePrompt(data)} />}
-    </>
+    </Box>
   );
 }
 
