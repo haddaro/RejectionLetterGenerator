@@ -11,6 +11,7 @@ import {
   Radio,
   InputLabel,
   Fab,
+  SelectChangeEvent,
 } from "@mui/material";
 import { Input } from "../types/InputType";
 interface Props {
@@ -30,15 +31,15 @@ const inviteOptions: string[] = ["OK", "Hell no"];
 const Form = ({ onFormSubmit, moveForward }: Props) => {
   const candidateRef = useRef<HTMLInputElement>(null);
   const companyRef = useRef<HTMLInputElement>(null);
-  const rateRef = useRef<HTMLSelectElement>(null);
   const [invite, setInvite] = useState("");
   const [clicked, setClicked] = useState(false);
+  const [controlledRate, setControlledRate] = useState("");
 
   const clearForm = () => {
     if (candidateRef.current) candidateRef.current.value = "";
     if (companyRef.current) companyRef.current.value = "";
-    if (rateRef.current) rateRef.current.value = "";
     setInvite("");
+    setControlledRate("");
   };
 
   const handleSubmit = (e: FormEvent) => {
@@ -46,14 +47,14 @@ const Form = ({ onFormSubmit, moveForward }: Props) => {
     if (
       !candidateRef.current?.value ||
       !companyRef.current?.value ||
-      !rateRef.current?.value ||
+      !controlledRate ||
       !invite
     ) {
       return;
     }
     const candidate = candidateRef.current!.value;
     const company = companyRef.current!.value;
-    const rate = rateRef.current!.value;
+    const rate = controlledRate;
     const newData: Input = {
       candidate,
       company,
@@ -68,6 +69,10 @@ const Form = ({ onFormSubmit, moveForward }: Props) => {
     clearForm();
     setClicked(false);
     moveForward();
+  };
+
+  const handleSelect = (e: SelectChangeEvent) => {
+    setControlledRate(e.target.value);
   };
 
   return (
@@ -98,7 +103,11 @@ const Form = ({ onFormSubmit, moveForward }: Props) => {
             style={{ width: "90%" }}
           >
             <InputLabel id="evaluation-label">How bad were they?</InputLabel>
-            <Select labelId="evaluation-label" inputRef={rateRef}>
+            <Select
+              labelId="evaluation-label"
+              value={controlledRate}
+              onChange={handleSelect}
+            >
               {options.map((option, index) => (
                 <MenuItem value={option} key={index}>
                   {option}
@@ -134,12 +143,12 @@ const Form = ({ onFormSubmit, moveForward }: Props) => {
         <Grid item xs={12} sm={6}>
           {clicked ? (
             <Fab
-              type="submit"
+              type="button"
               variant="extended"
-              color="primary"
+              color="secondary"
               onClick={handleMoveForward}
             >
-              Move forward with another candidate
+              Move forward with another candidate!
             </Fab>
           ) : (
             <Fab type="submit" variant="extended" color="primary">
