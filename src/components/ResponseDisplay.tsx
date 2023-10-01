@@ -5,10 +5,10 @@ import Tooltip from "@mui/material/Tooltip";
 import { useState } from "react";
 
 interface Props {
-  toDisplay: string;
+  children: string;
 }
 
-const ResponseDisplay = ({ toDisplay }: Props) => {
+const ResponseDisplay = ({ children }: Props) => {
   const [copied, setCopied] = useState(false);
   const handleCopy = () => {
     setCopied(true);
@@ -41,7 +41,7 @@ const ResponseDisplay = ({ toDisplay }: Props) => {
       </Tooltip>
       <Box p={2}>
         <Typography variant="h6" gutterBottom>
-          {toDisplay}
+          {children}
         </Typography>
       </Box>
     </Paper>

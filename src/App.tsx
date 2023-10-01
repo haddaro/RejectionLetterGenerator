@@ -57,7 +57,7 @@ function App() {
           }}
         />
       </div>
-      {isSubmitted && <ResponseDisplay toDisplay={generateLetter(data)} />}
+      {isSubmitted && <ResponseDisplay>{generateLetter(data)}</ResponseDisplay>}
     </Box>
   );
 }
