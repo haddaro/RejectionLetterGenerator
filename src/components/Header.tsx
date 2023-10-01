@@ -10,7 +10,7 @@ const Header = () => {
       }}
     >
       <Typography variant="h3" color="Primary">
-        Rejection taken personally 🫤
+        Rejection made easy 🫤
       </Typography>
     </Box>
   );

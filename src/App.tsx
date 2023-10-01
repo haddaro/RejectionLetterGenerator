@@ -25,19 +25,18 @@ function App() {
     if (rate === "Good but not enough") return `a good effort`;
     if (rate === "They were okayish")
       return `a satisfactory level of competence`;
-    if (rate === "Pretty darn bad")
-      return `a level of inadequacy that kindled our curiosity`;
-    if (rate === "an incredibly high self esteem") return `5`;
+    if (rate === "Pretty darn bad") return `laudable soft skills`;
+    if (rate === "Sucked") return `an incredibly high self esteem`;
   };
   const generateLetter = (data: Input) => {
     const evaluation = formatEvaluation(data.rate);
     return (
       `Dear ${data.candidate},
-      We thank you for applying for a job at ${data.company}.
-      Although your interview demonstrated ${evaluation}, 
-      we have decided to move forward with another candidate.
+      We thank you for applying for a job at ${data.company}. 
+      Although your interview demonstrated ${evaluation},  
+      we have decided to move forward with another candidate. 
       We wish you best of luck in your job search` +
-      (data.reInvite ? ", and hope you'll apply again in the future." : ".") +
+      (data.reInvite ? ", and hope you'll apply again in the future. " : ". ") +
       `Sincerely, ${data.company}.`
     );
   };
@@ -51,7 +50,12 @@ function App() {
     >
       <Header />
       <div style={{ marginTop: "50px", padding: "16px" }}>
-        <Form onFormSubmit={handleFormSubmit} />
+        <Form
+          onFormSubmit={handleFormSubmit}
+          moveForward={() => {
+            setIsSubmitted(false);
+          }}
+        />
       </div>
       {isSubmitted && <ResponseDisplay toDisplay={generateLetter(data)} />}
     </Box>

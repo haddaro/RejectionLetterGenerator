@@ -15,6 +15,7 @@ import {
 import { Input } from "../types/InputType";
 interface Props {
   onFormSubmit: (newData: Input) => void;
+  moveForward: () => void;
 }
 
 const options: string[] = [
@@ -26,11 +27,12 @@ const options: string[] = [
 ];
 const inviteOptions: string[] = ["OK", "Hell no"];
 
-const Form = ({ onFormSubmit }: Props) => {
+const Form = ({ onFormSubmit, moveForward }: Props) => {
   const candidateRef = useRef<HTMLInputElement>(null);
   const companyRef = useRef<HTMLInputElement>(null);
   const rateRef = useRef<HTMLSelectElement>(null);
   const [invite, setInvite] = useState("");
+  const [clicked, setClicked] = useState(false);
 
   const clearForm = () => {
     if (candidateRef.current) candidateRef.current.value = "";
@@ -59,7 +61,13 @@ const Form = ({ onFormSubmit }: Props) => {
       reInvite: invite === inviteOptions[0] ? true : false,
     };
     onFormSubmit(newData);
+    setClicked(true);
+  };
+
+  const handleMoveForward = () => {
     clearForm();
+    setClicked(false);
+    moveForward();
   };
 
   return (
@@ -124,9 +132,20 @@ const Form = ({ onFormSubmit }: Props) => {
           </FormControl>
         </Grid>
         <Grid item xs={12} sm={6}>
-          <Fab type="submit" variant="extended" color="primary">
-            Generate
-          </Fab>
+          {clicked ? (
+            <Fab
+              type="submit"
+              variant="extended"
+              color="primary"
+              onClick={handleMoveForward}
+            >
+              Move forward with another candidate
+            </Fab>
+          ) : (
+            <Fab type="submit" variant="extended" color="primary">
+              Generate
+            </Fab>
+          )}
         </Grid>
       </Grid>
     </form>
