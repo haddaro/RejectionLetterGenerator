@@ -17,7 +17,7 @@ const Header = () => {
           textShadow: "2px 2px 4px rgba(0, 0, 0, 0.5)",
         }}
       >
-        R-eject! 📃➡️🗑️
+        R:eject! 📃➡️🗑️
       </Typography>
     </Box>
   );
