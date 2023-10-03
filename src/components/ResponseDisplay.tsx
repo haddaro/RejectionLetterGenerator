@@ -1,6 +1,7 @@
 import { IconButton, Box, Paper, Typography } from "@mui/material";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import CheckIcon from "@mui/icons-material/Check";
+import ErrorIcon from "@mui/icons-material/Error";
 import Tooltip from "@mui/material/Tooltip";
 import { useState } from "react";
 
@@ -10,9 +11,18 @@ interface Props {
 
 const ResponseDisplay = ({ children }: Props) => {
   const [copied, setCopied] = useState(false);
+  const [error, setError] = useState(false);
   const handleCopy = () => {
-    setCopied(true);
-    //write functionality!!!!!
+    navigator.clipboard.writeText(children).then(
+      () => {
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2000);
+      },
+      () => {
+        setError(true);
+        setTimeout(() => setError(false), 2000);
+      }
+    );
   };
   return (
     <Paper
@@ -29,6 +39,12 @@ const ResponseDisplay = ({ children }: Props) => {
             right: "8px",
           }}
         >
+          {error && (
+            <>
+              <Typography variant="body2">Could not copy</Typography>
+              <ErrorIcon />
+            </>
+          )}
           {copied ? (
             <>
               <Typography variant="body2">Copied!</Typography>

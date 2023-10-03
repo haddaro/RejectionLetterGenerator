@@ -12,7 +12,6 @@ import {
   InputLabel,
   Fab,
   SelectChangeEvent,
-  Typography,
 } from "@mui/material";
 import { Input } from "../types/InputType";
 interface Props {

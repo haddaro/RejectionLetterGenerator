@@ -33,11 +33,11 @@ function App() {
     return (
       `Dear ${data.candidate},
       We thank you for applying for a job at ${data.company}. 
-      Although your interview demonstrated ${evaluation},  
-      we have decided to move forward with another candidate. 
+      Although your interview demonstrated ${evaluation}, we have decided to move forward with another candidate. 
       We wish you best of luck in your job search` +
       (data.reInvite ? ", and hope you'll apply again in the future. " : ". ") +
-      `Sincerely, ${data.company}.`
+      `
+      Sincerely, ${data.company}.`
     );
   };
 
