@@ -12,6 +12,7 @@ import {
   InputLabel,
   Fab,
   SelectChangeEvent,
+  Typography,
 } from "@mui/material";
 import { Input } from "../types/InputType";
 interface Props {
@@ -29,11 +30,12 @@ const options: string[] = [
 const inviteOptions: string[] = ["OK", "Hell no"];
 
 const Form = ({ onFormSubmit, moveForward }: Props) => {
-  const candidateRef = useRef<HTMLInputElement>(null);
-  const companyRef = useRef<HTMLInputElement>(null);
   const [invite, setInvite] = useState("");
   const [clicked, setClicked] = useState(false);
   const [controlledRate, setControlledRate] = useState("");
+  const [missingInput, setMissingInput] = useState(false);
+  const candidateRef = useRef<HTMLInputElement>(null);
+  const companyRef = useRef<HTMLInputElement>(null);
 
   const clearForm = () => {
     if (candidateRef.current) candidateRef.current.value = "";
@@ -50,6 +52,7 @@ const Form = ({ onFormSubmit, moveForward }: Props) => {
       !controlledRate ||
       !invite
     ) {
+      setMissingInput(true);
       return;
     }
     const candidate = candidateRef.current!.value;
@@ -63,11 +66,13 @@ const Form = ({ onFormSubmit, moveForward }: Props) => {
     };
     onFormSubmit(newData);
     setClicked(true);
+    setMissingInput(false);
   };
 
   const handleMoveForward = () => {
     clearForm();
     setClicked(false);
+    setMissingInput(false);
     moveForward();
   };
 
@@ -154,6 +159,11 @@ const Form = ({ onFormSubmit, moveForward }: Props) => {
             <Fab type="submit" variant="extended" color="primary">
               Generate
             </Fab>
+          )}
+          {missingInput && (
+            <Grid item xs={12} sm={6} style={{ padding: "10px" }}>
+              <Typography color="red">All fields are required</Typography>
+            </Grid>
           )}
         </Grid>
       </Grid>
