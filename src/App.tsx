@@ -5,18 +5,36 @@ import Header from "./components/Header";
 import ResponseDisplay from "./components/ResponseDisplay";
 import { Box } from "@mui/material";
 
-function App() {
-  const [data, setData] = useState<Input>({
-    candidate: "",
-    company: "",
-    rate: "",
-    reInvite: true,
-  });
-  const [isSubmitted, setIsSubmitted] = useState(false);
+interface Advice {
+  slip: {
+    id: number;
+    advice: string;
+  };
+  slip_id: number;
+  advice: string;
+}
 
-  const handleFormSubmit = (newData: Input) => {
-    setData(newData);
+function App() {
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [rejectionLetter, setRejectionLetter] = useState<string | null>(null);
+
+  const handleFormSubmit = async (newData: Input) => {
     setIsSubmitted(true);
+    const letter = await generateLetter(newData);
+    setRejectionLetter(letter);
+  };
+
+  const getAdvice = async () => {
+    try {
+      const answer = await fetch("https://api.adviceslip.com/advice");
+      if (!answer.ok) throw new Error("Could not fetch advice");
+      const fetchedAdvice: Advice = await answer.json();
+      return fetchedAdvice.slip.advice;
+    } catch (error: unknown) {
+      if (error instanceof Error) console.error(`error: ${error.message}`);
+      else console.log(String(error));
+      return "Don't trust free Api's";
+    }
   };
 
   const formatEvaluation = (rate: string) => {
@@ -28,7 +46,10 @@ function App() {
     if (rate === "Pretty darn bad") return `laudable soft skills`;
     if (rate === "Sucked") return `an incredibly high self esteem`;
   };
-  const generateLetter = (data: Input) => {
+
+  const generateLetter = async (data: Input) => {
+    console.log(data.reInvite);
+    const advice = await getAdvice();
     const evaluation = formatEvaluation(data.rate);
     return (
       `Dear ${data.candidate},
@@ -36,12 +57,10 @@ function App() {
       Although your interview demonstrated ${evaluation}, we have decided to move forward with another candidate. 
       We wish you best of luck in your job search` +
       (data.reInvite ? ", and hope you'll apply again in the future. " : ". ") +
-      `
+      `In the meantime, here is a piece of advice: ${advice}
       Sincerely, ${data.company}.`
     );
   };
-
-  const rejectionLetter = generateLetter(data);
 
   return (
     <Box
@@ -59,7 +78,9 @@ function App() {
           }}
         />
       </div>
-      {isSubmitted && <ResponseDisplay>{rejectionLetter}</ResponseDisplay>}
+      {isSubmitted && typeof rejectionLetter === "string" && (
+        <ResponseDisplay>{rejectionLetter}</ResponseDisplay>
+      )}
     </Box>
   );
 }

@@ -59,7 +59,7 @@ const Form = ({ onFormSubmit, moveForward }: Props) => {
       candidate,
       company,
       rate,
-      reInvite: invite === inviteOptions[0] ? true : false,
+      reInvite: invite === "yes" ? true : false,
     };
     onFormSubmit(newData);
     setClicked(true);
