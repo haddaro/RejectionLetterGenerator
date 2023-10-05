@@ -3,7 +3,7 @@ import Form from "./components/Form";
 import { Input } from "./types/InputType";
 import Header from "./components/Header";
 import ResponseDisplay from "./components/ResponseDisplay";
-import { Box } from "@mui/material";
+import { Box, CircularProgress } from "@mui/material";
 
 interface Advice {
   slip: {
@@ -17,6 +17,7 @@ interface Advice {
 function App() {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [rejectionLetter, setRejectionLetter] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleFormSubmit = async (newData: Input) => {
     setIsSubmitted(true);
@@ -25,14 +26,17 @@ function App() {
   };
 
   const getAdvice = async () => {
+    setIsLoading(true);
     try {
       const answer = await fetch("https://api.adviceslip.com/advice");
       if (!answer.ok) throw new Error("Could not fetch advice");
       const fetchedAdvice: Advice = await answer.json();
+      setIsLoading(false);
       return fetchedAdvice.slip.advice;
     } catch (error: unknown) {
       if (error instanceof Error) console.error(`error: ${error.message}`);
       else console.log(String(error));
+      setIsLoading(false);
       return "Don't trust free Api's";
     }
   };
@@ -78,9 +82,12 @@ function App() {
           }}
         />
       </div>
-      {isSubmitted && typeof rejectionLetter === "string" && (
-        <ResponseDisplay>{rejectionLetter}</ResponseDisplay>
-      )}
+      <div>
+        {isLoading && <CircularProgress />}
+        {isSubmitted && typeof rejectionLetter === "string" && (
+          <ResponseDisplay>{rejectionLetter}</ResponseDisplay>
+        )}
+      </div>
     </Box>
   );
 }
