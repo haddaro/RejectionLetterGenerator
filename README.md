@@ -1,32 +1,20 @@
-<<<<<<< HEAD
-# React + TypeScript + Vite
-
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
-
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
-
-- Configure the top-level `parserOptions` property like this:
-
-```js
-   parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-   },
-```
-
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
-=======
 # RejectionLetterWriter
-Writes a rejection letter for a job candidate based on your input, and supplement it with a random advice fetched from an API.
->>>>>>> 3e43cabf86b372120e9c6aca325e9e07d518be9c
+
+## Overview
+RejectionLetterWriter is a playful, yet practical tool developed using TypeScript and React. It's designed to generate rejection letters for job candidates with a twist. Based on your input, it not only crafts a professional rejection letter but also supplements it with a piece of random advice fetched from an API. This unique approach adds a light-hearted element to the otherwise somber task of sending rejection notices.
+
+## Features
+- **Customizable Rejection Letters:** Create tailored rejection letters for job applicants.
+- **Random Advice Integration:** Each letter is accompanied by a unique piece of advice, retrieved from an external API.
+- **User-Friendly Interface:** Built with React for an interactive and intuitive user experience.
+- **TypeScript Integration:** Ensures robustness and maintainability of the codebase.
+
+## Technology Stack
+- **TypeScript:** For type-safe code and enhanced development experience.
+- **React:** For building a responsive and dynamic user interface.
+
+## Try It Yourself
+Experience RejectionLetterWriter in action! Visit [Rejection Letter Generator](https://rejection-letter-generator.vercel.app/) and start creating your own rejection letters with a twist.
+
+
+*Note: This application is meant for entertainment and should be used responsibly.*
